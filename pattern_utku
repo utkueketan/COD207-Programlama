@@ -1,0 +1,32 @@
+void setup() {
+
+  size(600, 600);
+  smooth();
+}
+
+
+void draw() {
+  background(#000000);
+  noStroke();
+  
+
+  int i = 0;
+  
+  for (int y = 0; y <= height; y = y + 35) {
+    for (int x = 0; x <= width; x += 35) {
+      noStroke();
+      fill(0, 255);
+
+      
+      noFill();
+      stroke(#00ff00);
+      strokeWeight(1);
+      ellipse(x, y, 50, 50);
+      i ++;
+      
+      
+    }
+  }
+  
+  println(i);
+}
