@@ -1,0 +1,180 @@
+import ddf.minim.*;
+ 
+Minim min;
+AudioPlayer mario;
+ 
+float x;
+float y;
+ 
+float xb;
+float yb;
+ 
+int a = 69;
+int b = 103;
+int c = 140;
+int d = 153;
+ 
+float x1;
+float y1;
+float w1;
+float h1;
+ 
+float x11 =200;
+float dx1 =random(5, 10);
+ 
+float y11 =200;
+float dy1 =random(5, 10);
+ 
+ 
+float pct = 1;
+ 
+boolean scene1 = true;
+boolean scene2 = false;
+boolean scene3 = false;
+ 
+PFont startFont;
+ 
+void setup() {
+  size(800, 600);
+  min = new Minim(this);
+  mario = min.loadFile("marioend.mp3");
+  startFont = createFont("Ananda Black Personal Use", 1);
+  textFont(startFont);
+  w1 = 240;
+  h1 = 60;
+  x1 = width * 0.5 - w1 * 0.5;
+  y1 = height*0.5 - h1 *0.5;
+}
+ 
+ 
+void draw() {
+ 
+  if (scene1 == true) {
+    fill(#FFFF00);
+    rect( x1, y1, w1, h1);
+ 
+    pushStyle();
+    fill(#FF0000);
+    textFont(startFont);
+    textSize(35);
+    textAlign(CENTER);
+    text("START", width * 0.5, height*0.5 + 15);
+    popStyle();
+  }
+ 
+  if (scene2 == true) {
+    background(255);
+    xb = mouseX;
+    yb = mouseY;
+   
+    mario.pause();
+    mario.rewind();
+ 
+    fill(0);
+    ellipse (x11, y11, 50, 50);
+ 
+    x11 = x11 + dx1;
+    y11 = y11 + dy1;
+ 
+ 
+ 
+    if (x11 > width -25) {
+      dx1 = -random(5, 10);
+    }
+    if ( x11<25) {
+      dx1=random(5, 10);
+    }
+    if (y11 > height -25) {
+      dy1 = -random(5, 10);
+    }
+    if ( y11<25) {
+      dy1=random(5, 10);
+    }
+ 
+    if (mouseX - a + c > x11 - 25 && mouseX - a < x11 + 25 && mouseY - b + d > y11 - 25 && mouseY - b < y11 + 25) {
+      scene2 = false;
+      scene3 = true;
+      mario.play();
+    }
+ 
+    pushMatrix();
+ 
+    translate(x-110, y-142);
+ 
+    noStroke();
+    fill(#f42b2b);
+    stroke(#fffc00);
+    rect(74, 58, 68, 45);
+    rect(63, 117, 95, 55);
+    rect(100, 102, 12, 17);
+    rect(46, 131, 19, 3);
+    rect(155, 125, 22, 3);
+    //leg
+    rect(84, 170, 10, 21);
+    rect(128, 171, 8, 16);
+    rect(172, 115, 8, 17);
+    rect(42, 115, 8, 25);
+    rect(84, 40, 7, 21);
+    rect(119, 40, 7, 21);
+ 
+    fill(#fffc00);
+    rect(93, 130, 32, 21);
+ 
+    //ELLIPSE
+ 
+    noStroke();
+ 
+    ellipse(127, 78, 10, 14);
+    ellipse(91, 78, 10, 14);
+ 
+    //mouth
+ 
+    fill(#fffc00);
+    rect(100, 90, 20, 7);
+ 
+    fill(#f42b2b);
+    rect(105, 92, 10, 3);
+ 
+    popMatrix();
+ 
+    // expo moving algorithm
+    x = x + (xb - x) * pct;
+    y = y + (yb - y) * pct;
+ 
+    pushStyle();
+    noStroke();
+    noFill();
+    stroke(255);
+    rect(mouseX - a, mouseY - b, c, d);
+    popStyle();
+  }
+  if (scene3 == true) {
+    background(255);
+    fill(#FFFF00);
+    rect( x1, y1, w1, h1);
+ 
+    pushStyle();
+    fill(#FF0000);
+    textFont(startFont);
+    textSize(35);
+    textAlign(CENTER);
+    text("RESTART", width * 0.5, height*0.5 + 15);
+    popStyle();
+    restart();
+  }
+}
+ 
+void restart() {
+ x11 = random(25, 775);
+  y11 = random(25, 575);
+  dx1 = random(5, 10);
+  dy1 = random(5, 10);
+}
+ 
+void mousePressed() {
+  if (mouseX > x1 && mouseX < x1 + w1 && mouseY > y1 && mouseY < y1 + h1) {
+    scene1 = false;
+    scene2 = true;
+    scene3 = false;
+  }
+}
